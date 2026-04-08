@@ -90,22 +90,25 @@
     .masthead::before {
       content: '✝';
       position: absolute;
-      left: 32px;
+      left: 48px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 2.2rem;
-      color: rgba(201,160,39,0.18);
+      font-size: 3.2rem;
+      color: var(--gold);
+      opacity: 0.75;
       pointer-events: none;
+      text-shadow: 0 0 20px rgba(201,160,39,0.5), 0 2px 8px rgba(0,0,0,0.6);
     }
     .masthead::after {
       content: '🦅';
       position: absolute;
-      right: 32px;
+      right: 48px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 2rem;
-      opacity: 0.18;
+      font-size: 3rem;
+      opacity: 0.75;
       pointer-events: none;
+      filter: drop-shadow(0 0 10px rgba(201,160,39,0.4)) drop-shadow(0 2px 6px rgba(0,0,0,0.7));
     }
     .m-name {
       font-family: 'Georgia', 'Times New Roman', serif;
@@ -256,13 +259,33 @@
 
     .hero-img-wrap {
       width: 100%;
-      height: 240px;
+      height: 320px;
       overflow: hidden;
-      background: #e8e4de;
+      background: #1a2a42;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
-    .hero-main:hover .hero-img-wrap img { transform: scale(1.03); }
+    .hero-img-bg {
+      position: absolute;
+      inset: -20px;
+      background-size: cover;
+      background-position: center;
+      filter: blur(18px) brightness(0.45);
+      transform: scale(1.08);
+    }
+    .hero-img-wrap img {
+      position: relative;
+      z-index: 1;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      transition: transform .4s ease;
+    }
+    .hero-main:hover .hero-img-wrap img { transform: scale(1.02); }
     .hero-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; opacity: .15; }
 
     .hero-body { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
@@ -588,7 +611,7 @@
       .page { padding: 16px; }
       .hero { grid-template-columns: 1fr; }
       .hero-stack { display: none; }
-      .hero-img-wrap { height: 180px; }
+      .hero-img-wrap { height: 220px; }
       .hero-title { font-size: 1.2rem; }
       .content-cols { grid-template-columns: 1fr; }
       .sidebar { display: none; }
@@ -1114,7 +1137,8 @@ function renderHero(list) {
 
   const wrap = document.getElementById('hero-img-wrap');
   if (main.img) {
-    wrap.innerHTML = `<img src="${main.img}" alt="" loading="lazy" onerror="this.parentNode.innerHTML='<div class=hero-placeholder>${CAT_ICONS[main.cat]||'📰'}</div>'">`;
+    wrap.innerHTML = `<div class="hero-img-bg" style="background-image:url('${main.img}')"></div>`
+      + `<img src="${main.img}" alt="" loading="lazy" onerror="this.parentNode.innerHTML='<div class=hero-placeholder>${CAT_ICONS[main.cat]||'📰'}</div>'">`;
   } else {
     wrap.innerHTML = `<div class="hero-placeholder">${CAT_ICONS[main.cat]||'📰'}</div>`;
   }
